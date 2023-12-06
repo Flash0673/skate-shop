@@ -2,6 +2,7 @@ psycopg2
 SQLAlchemy
 fastapi
 uvicorn
+alembic
 
 # dev
 pytest
