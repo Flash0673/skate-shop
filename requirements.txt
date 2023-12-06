@@ -1,8 +1,9 @@
 psycopg2
 SQLAlchemy
-fastapi
+fastapi[all]
 uvicorn
 alembic
+python-dotenv
 
 # dev
 pytest

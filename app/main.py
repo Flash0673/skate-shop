@@ -25,5 +25,11 @@ def read_decks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return decks
 
 
+@app.get("/decks/{deck_id}", response_model=schemas.Deck)
+def read_decks(deck_id: int, db: Session = Depends(get_db)):
+    decks = crud.get_deck(db, )
+    return decks
+
+
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
