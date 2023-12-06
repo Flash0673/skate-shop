@@ -7,7 +7,7 @@ from .database import Base
 class Deck(Base):
     __tablename__ = "decks"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, index=True)
     size = Column(Float(4, 2), index=True)
     description = Column(String, index=True)

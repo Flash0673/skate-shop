@@ -13,7 +13,6 @@ class DeckCreate(DeckBase):
 
 
 class Deck(DeckBase):
-    id: int
 
     class Config:
         orm_mode = True

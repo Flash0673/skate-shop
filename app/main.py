@@ -27,8 +27,17 @@ def read_decks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 @app.get("/decks/{deck_id}", response_model=schemas.Deck)
 def read_decks(deck_id: int, db: Session = Depends(get_db)):
-    decks = crud.get_deck(db, )
-    return decks
+    deck = crud.get_deck(db, deck_id)
+    if deck is None:
+        raise HTTPException(status_code=404, detail="Deck not found")
+    return deck
+
+
+@app.post("/decks/", response_model=schemas.Deck)
+def create_deck(
+    deck: schemas.Deck, db: Session = Depends(get_db)
+):
+    return crud.create_deck(db=db, deck=deck)
 
 
 if __name__ == "__main__":
