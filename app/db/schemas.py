@@ -16,3 +16,9 @@ class Deck(DeckBase):
 
     class Config:
         orm_mode = True
+
+
+class DeckEdit(DeckBase):
+
+    class Config:
+        orm_mode = True
