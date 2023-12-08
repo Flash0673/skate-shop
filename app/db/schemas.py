@@ -1,11 +1,13 @@
 from pydantic import BaseModel
+from typing import Union 
+
 
 
 class DeckBase(BaseModel):
     title: str
     size: float
     price: float
-    description: str | None = None
+    description: Union[str, None]
 
 
 class DeckCreate(DeckBase):
