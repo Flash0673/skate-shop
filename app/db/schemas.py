@@ -11,8 +11,12 @@ class DeckBase(BaseModel):
 class DeckCreate(DeckBase):
     pass
 
+    class Config:
+        orm_mode = True
+
 
 class Deck(DeckBase):
+    id: int
 
     class Config:
         orm_mode = True
