@@ -201,56 +201,57 @@ def edit_wheels(
     return db_wheels
 
 
-# ############------GRIP-TAPES------############
-#
-#
-# def get_complete(db: Session, complete_id: int):
-#     return db.query(models.Complete).filter(models.Complete.id == complete_id).first()
-#
-#
-# def get_completes(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(models.Complete).offset(skip).limit(limit).all()
-#
-#
-# def create_completes(db: Session, complete: schemas.CompleteCreate):
-#     db_complete = models.Complete(
-#         title=complete.title,
-#         size=complete.size,
-#         price=complete.price,
-#         description=complete.description,
-#     )
-#     db.add(db_complete)
-#     db.commit()
-#     db.refresh(db_complete)
-#     return db_complete
-#
-#
-# def delete_complete(db: Session, complete_id: int):
-#     complete = get_complete(db, complete_id)
-#     if not complete:
-#         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Complete not found")
-#     db.delete(complete)
-#     db.commit()
-#     return complete
-#
-#
-# def edit_complete(
-#         db: Session, complete_id: int, complete: schemas.CompleteEdit
-# ) -> schemas.Complete:
-#     db_complete = get_complete(db, complete_id)
-#     if not db_complete:
-#         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Complete not found")
-#     update_data = complete.dict(exclude_unset=True)
-#
-#     for key, value in update_data.items():
-#         setattr(db_complete, key, value)
-#
-#     db.add(db_complete)
-#     db.commit()
-#     db.refresh(db_complete)
-#     return db_complete
-#
-#
+############------GRIP-TAPES------############
+
+
+def get_griptape(db: Session, griptape_id: int):
+    return db.query(models.Griptape).filter(models.Griptape.id == griptape_id).first()
+
+
+def get_griptapes(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Griptape).offset(skip).limit(limit).all()
+
+
+def create_griptape(db: Session, griptape: schemas.GriptapeCreate):
+    db_griptape = models.Griptape(
+        title=griptape.title,
+        price=griptape.price,
+        description=griptape.description,
+        length=griptape.length,
+        width=griptape.width
+    )
+    db.add(db_griptape)
+    db.commit()
+    db.refresh(db_griptape)
+    return db_griptape
+
+
+def delete_griptape(db: Session, griptape_id: int):
+    griptape = get_griptape(db, griptape_id)
+    if not griptape:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Grip-Tape not found")
+    db.delete(griptape)
+    db.commit()
+    return griptape
+
+
+def edit_griptape(
+        db: Session, griptape_id: int, griptape: schemas.GriptapeEdit
+) -> schemas.Griptape:
+    db_griptape = get_griptape(db, griptape_id)
+    if not db_griptape:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Grpi-Tape not found")
+    update_data = griptape.dict(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(db_griptape, key, value)
+
+    db.add(db_griptape)
+    db.commit()
+    db.refresh(db_griptape)
+    return db_griptape
+
+
 # ############------BEARINGS------############
 #
 #

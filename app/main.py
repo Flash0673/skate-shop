@@ -180,6 +180,41 @@ def delete_wheels(wheels_id: int, db: Session = Depends(get_db)):
 
 ############------GRIP-TAPES------############
 
+@app.get("/griptapes", response_model=list[schemas.Griptape], tags=["griptapes"])
+def read_griptapes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    griptapes = crud.get_griptapes(db, skip=skip, limit=limit)
+    return griptapes
+
+
+@app.get("/griptapes/{griptape_id}", response_model=schemas.Griptape, tags=["griptapes"])
+def read_wheel(griptape_id: int, db: Session = Depends(get_db)):
+    griptape = crud.get_griptape(db, griptape_id)
+    if griptape is None:
+        raise HTTPException(status_code=404, detail="Wheels not found")  # TODO: Вынести в crud
+    return griptape
+
+
+@app.post("/griptapes", response_model=schemas.Griptape, tags=["griptapes"])
+def create_complete(
+        griptape: schemas.GriptapeCreate, db: Session = Depends(get_db)
+):
+    return crud.create_griptape(db=db, griptape=griptape)
+
+
+@app.put("/griptapes/{griptape_id}", response_model=schemas.Griptape, tags=["griptapes"])
+def update_truck(
+        griptape_id: int,
+        griptape: schemas.GriptapeEdit,
+        db: Session = Depends(get_db)
+):
+    return crud.edit_griptape(db=db, griptape_id=griptape_id, griptape=griptape)
+
+
+@app.delete("/griptapes/{griptape_id}", response_model=schemas.Griptape, tags=["griptapes"])
+def delete_wheels(griptape_id: int, db: Session = Depends(get_db)):
+    return crud.delete_griptape(db=db, griptape_id=griptape_id)
+
+
 
 ############------BEARINGS------############
 
