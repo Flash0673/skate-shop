@@ -140,7 +140,42 @@ def update_truck(
 def delete_truck(complete_id: int, db: Session = Depends(get_db)):
     return crud.delete_complete(db=db, complete_id=complete_id)
 
+
 ############------WHEELS------############
+
+@app.get("/wheels", response_model=list[schemas.Wheels], tags=["wheels"])
+def read_wheels(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    wheels = crud.get_wheels(db, skip=skip, limit=limit)
+    return wheels
+
+
+@app.get("/wheels/{wheels_id}", response_model=schemas.Wheels, tags=["wheels"])
+def read_wheel(wheels_id: int, db: Session = Depends(get_db)):
+    wheel = crud.get_wheel(db, wheels_id)
+    if wheel is None:
+        raise HTTPException(status_code=404, detail="Wheels not found")  # TODO: Вынести в crud
+    return wheel
+
+
+@app.post("/wheels", response_model=schemas.Wheels, tags=["wheels"])
+def create_complete(
+        wheels: schemas.WheelsCreate, db: Session = Depends(get_db)
+):
+    return crud.create_wheels(db=db, wheels=wheels)
+
+
+@app.put("/wheels/{wheels_id}", response_model=schemas.Wheels, tags=["wheels"])
+def update_truck(
+        wheels_id: int,
+        wheels: schemas.WheelsEdit,
+        db: Session = Depends(get_db)
+):
+    return crud.edit_wheels(db=db, wheels_id=wheels_id, wheels=wheels)
+
+
+@app.delete("/wheels/{wheels_id}", response_model=schemas.Wheels, tags=["wheels"])
+def delete_wheels(wheels_id: int, db: Session = Depends(get_db)):
+    return crud.delete_wheels(db=db, wheels_id=wheels_id)
 
 
 ############------GRIP-TAPES------############
