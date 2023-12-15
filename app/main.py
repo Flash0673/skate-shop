@@ -29,8 +29,10 @@ def get_db():
         db.close()
 
 
+############------DECKS------############
+
 # TODO: Рефактор кода
-@app.get("/decks/", response_model=list[schemas.Deck], tags=["decks"])
+@app.get("/decks", response_model=list[schemas.Deck], tags=["decks"])
 def read_decks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     decks = crud.get_decks(db, skip=skip, limit=limit)
     return decks
@@ -65,16 +67,16 @@ def delete_deck(deck_id: int, db: Session = Depends(get_db)):
     return crud.delete_deck(db=db, deck_id=deck_id)
 
 
-#############################################
+############------TRUCKS------############
 
-@app.get("/trucks/", response_model=list[schemas.Truck], tags=["trucks"])
+@app.get("/trucks", response_model=list[schemas.Truck], tags=["trucks"])
 def read_trucks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     trucks = crud.get_trucks(db, skip=skip, limit=limit)
     return trucks
 
 
 @app.get("/trucks/{truck_id}", response_model=schemas.Truck, tags=["trucks"])
-def read_trucks(truck_id: int, db: Session = Depends(get_db)):
+def read_truck(truck_id: int, db: Session = Depends(get_db)):
     truck = crud.get_truck(db, truck_id)
     if truck is None:
         raise HTTPException(status_code=404, detail="Truck not found")  # TODO: Вынести в crud
@@ -100,6 +102,51 @@ def update_truck(
 @app.delete("/trucks/{truck_id}", response_model=schemas.Truck, tags=["trucks"])
 def delete_truck(truck_id: int, db: Session = Depends(get_db)):
     return crud.delete_truck(db=db, truck_id=truck_id)
+
+
+############------COMPLETES------############
+
+@app.get("/completes", response_model=list[schemas.Complete], tags=["completes"])
+def read_completes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    completes = crud.get_completes(db, skip=skip, limit=limit)
+    return completes
+
+
+@app.get("/completes/{complete_id}", response_model=schemas.Complete, tags=["completes"])
+def read_complete(complete_id: int, db: Session = Depends(get_db)):
+    complete = crud.get_complete(db, complete_id)
+    if complete is None:
+        raise HTTPException(status_code=404, detail="Complete not found")  # TODO: Вынести в crud
+    return complete
+
+
+@app.post("/completes", response_model=schemas.Complete, tags=["completes"])
+def create_complete(
+        complete: schemas.CompleteCreate, db: Session = Depends(get_db)
+):
+    return crud.create_complete(db=db, complete=complete)
+
+
+@app.put("/completes/{complete_id}", response_model=schemas.Complete, tags=["completes"])
+def update_truck(
+        complete_id: int,
+        complete: schemas.CompleteEdit,
+        db: Session = Depends(get_db)
+):
+    return crud.edit_complete(db=db, complete_id=complete_id, complete=complete)
+
+
+@app.delete("/completes/{complete_id}", response_model=schemas.Complete, tags=["completes"])
+def delete_truck(complete_id: int, db: Session = Depends(get_db)):
+    return crud.delete_complete(db=db, complete_id=complete_id)
+
+############------WHEELS------############
+
+
+############------GRIP-TAPES------############
+
+
+############------BEARINGS------############
 
 
 if __name__ == "__main__":
