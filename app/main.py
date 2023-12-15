@@ -13,11 +13,12 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     # allow_origins=['*'],
-    allow_origins=["http://localhost","http://127.0.0.1:3000", 'http://localhost:8080', "http://localhost:3000"],
+    allow_origins=["http://localhost", "http://127.0.0.1:3000", 'http://localhost:8080', "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # Dependency
 def get_db():
@@ -29,13 +30,13 @@ def get_db():
 
 
 # TODO: Рефактор кода
-@app.get("/decks/", response_model=list[schemas.Deck])
+@app.get("/decks/", response_model=list[schemas.Deck], tags=["decks"])
 def read_decks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     decks = crud.get_decks(db, skip=skip, limit=limit)
     return decks
 
 
-@app.get("/decks/{deck_id}", response_model=schemas.Deck)
+@app.get("/decks/{deck_id}", response_model=schemas.Deck, tags=["decks"])
 def read_decks(deck_id: int, db: Session = Depends(get_db)):
     deck = crud.get_deck(db, deck_id)
     if deck is None:
@@ -43,14 +44,14 @@ def read_decks(deck_id: int, db: Session = Depends(get_db)):
     return deck
 
 
-@app.post("/decks", response_model=schemas.Deck)
+@app.post("/decks", response_model=schemas.Deck, tags=["decks"])
 def create_deck(
         deck: schemas.DeckCreate, db: Session = Depends(get_db)
 ):
     return crud.create_deck(db=db, deck=deck)
 
 
-@app.put("/decks/{deck_id}", response_model=schemas.Deck)
+@app.put("/decks/{deck_id}", response_model=schemas.Deck, tags=["decks"])
 def update_deck(
         deck_id: int,
         deck: schemas.DeckEdit,
@@ -59,9 +60,46 @@ def update_deck(
     return crud.edit_deck(db=db, deck_id=deck_id, deck=deck)
 
 
-@app.delete("/decks/{deck_id}", response_model=schemas.Deck)
+@app.delete("/decks/{deck_id}", response_model=schemas.Deck, tags=["decks"])
 def delete_deck(deck_id: int, db: Session = Depends(get_db)):
     return crud.delete_deck(db=db, deck_id=deck_id)
+
+
+#############################################
+
+@app.get("/trucks/", response_model=list[schemas.Truck], tags=["trucks"])
+def read_trucks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    trucks = crud.get_trucks(db, skip=skip, limit=limit)
+    return trucks
+
+
+@app.get("/trucks/{truck_id}", response_model=schemas.Truck, tags=["trucks"])
+def read_trucks(truck_id: int, db: Session = Depends(get_db)):
+    truck = crud.get_truck(db, truck_id)
+    if truck is None:
+        raise HTTPException(status_code=404, detail="Truck not found")  # TODO: Вынести в crud
+    return truck
+
+
+@app.post("/trucks", response_model=schemas.Truck, tags=["trucks"])
+def create_truck(
+        truck: schemas.TruckCreate, db: Session = Depends(get_db)
+):
+    return crud.create_truck(db=db, truck=truck)
+
+
+@app.put("/trucks/{truck_id}", response_model=schemas.Truck, tags=["trucks"])
+def update_truck(
+        truck_id: int,
+        truck: schemas.TruckEdit,
+        db: Session = Depends(get_db)
+):
+    return crud.edit_truck(db=db, truck_id=truck_id, truck=truck)
+
+
+@app.delete("/trucks/{truck_id}", response_model=schemas.Truck, tags=["trucks"])
+def delete_truck(truck_id: int, db: Session = Depends(get_db)):
+    return crud.delete_truck(db=db, truck_id=truck_id)
 
 
 if __name__ == "__main__":
