@@ -187,7 +187,7 @@ def read_griptapes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
 
 
 @app.get("/griptapes/{griptape_id}", response_model=schemas.Griptape, tags=["griptapes"])
-def read_wheel(griptape_id: int, db: Session = Depends(get_db)):
+def read_griptape(griptape_id: int, db: Session = Depends(get_db)):
     griptape = crud.get_griptape(db, griptape_id)
     if griptape is None:
         raise HTTPException(status_code=404, detail="Wheels not found")  # TODO: Вынести в crud
@@ -195,14 +195,14 @@ def read_wheel(griptape_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/griptapes", response_model=schemas.Griptape, tags=["griptapes"])
-def create_complete(
+def create_griptape(
         griptape: schemas.GriptapeCreate, db: Session = Depends(get_db)
 ):
     return crud.create_griptape(db=db, griptape=griptape)
 
 
 @app.put("/griptapes/{griptape_id}", response_model=schemas.Griptape, tags=["griptapes"])
-def update_truck(
+def update_griptape(
         griptape_id: int,
         griptape: schemas.GriptapeEdit,
         db: Session = Depends(get_db)
@@ -211,12 +211,46 @@ def update_truck(
 
 
 @app.delete("/griptapes/{griptape_id}", response_model=schemas.Griptape, tags=["griptapes"])
-def delete_wheels(griptape_id: int, db: Session = Depends(get_db)):
+def delete_griptapes(griptape_id: int, db: Session = Depends(get_db)):
     return crud.delete_griptape(db=db, griptape_id=griptape_id)
 
 
-
 ############------BEARINGS------############
+
+
+@app.get("/bearings", response_model=list[schemas.Bearings], tags=["bearings"])
+def read_bearings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    bearings = crud.get_bearings(db, skip=skip, limit=limit)
+    return bearings
+
+
+@app.get("/bearings/{bearings_id}", response_model=schemas.Bearings, tags=["bearings"])
+def read_bearing(bearings_id: int, db: Session = Depends(get_db)):
+    bearing = crud.get_bearing(db, bearings_id)
+    if bearing is None:
+        raise HTTPException(status_code=404, detail="Bearing not found")  # TODO: Вынести в crud
+    return bearing
+
+
+@app.post("/bearings", response_model=schemas.Bearings, tags=["bearings"])
+def create_bearings(
+        bearings: schemas.BearingsCreate, db: Session = Depends(get_db)
+):
+    return crud.create_bearings(db=db, bearings=bearings)
+
+
+@app.put("/bearings/{bearings_id}", response_model=schemas.Bearings, tags=["bearings"])
+def update_bearings(
+        bearings_id: int,
+        bearings: schemas.BearingsEdit,
+        db: Session = Depends(get_db)
+):
+    return crud.edit_bearings(db=db, bearings_id=bearings_id, bearings=bearings)
+
+
+@app.delete("/bearings/{bearings_id}", response_model=schemas.Bearings, tags=["bearings"])
+def delete_wheels(bearings_id: int, db: Session = Depends(get_db)):
+    return crud.delete_bearings(db=db, bearings_id=bearings_id)
 
 
 if __name__ == "__main__":

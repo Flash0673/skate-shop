@@ -240,7 +240,7 @@ def edit_griptape(
 ) -> schemas.Griptape:
     db_griptape = get_griptape(db, griptape_id)
     if not db_griptape:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Grpi-Tape not found")
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Grip-Tape not found")
     update_data = griptape.dict(exclude_unset=True)
 
     for key, value in update_data.items():
@@ -252,51 +252,50 @@ def edit_griptape(
     return db_griptape
 
 
-# ############------BEARINGS------############
-#
-#
-# def get_complete(db: Session, complete_id: int):
-#     return db.query(models.Complete).filter(models.Complete.id == complete_id).first()
-#
-#
-# def get_completes(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(models.Complete).offset(skip).limit(limit).all()
-#
-#
-# def create_complete(db: Session, complete: schemas.CompleteCreate):
-#     db_complete = models.Complete(
-#         title=complete.title,
-#         size=complete.size,
-#         price=complete.price,
-#         description=complete.description,
-#     )
-#     db.add(db_complete)
-#     db.commit()
-#     db.refresh(db_complete)
-#     return db_complete
-#
-#
-# def delete_complete(db: Session, complete_id: int):
-#     complete = get_complete(db, complete_id)
-#     if not complete:
-#         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Complete not found")
-#     db.delete(complete)
-#     db.commit()
-#     return complete
-#
-#
-# def edit_complete(
-#         db: Session, complete_id: int, complete: schemas.CompleteEdit
-# ) -> schemas.Complete:
-#     db_complete = get_complete(db, complete_id)
-#     if not db_complete:
-#         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Complete not found")
-#     update_data = complete.dict(exclude_unset=True)
-#
-#     for key, value in update_data.items():
-#         setattr(db_complete, key, value)
-#
-#     db.add(db_complete)
-#     db.commit()
-#     db.refresh(db_complete)
-#     return db_complete
+############------BEARINGS------############
+
+
+def get_bearing(db: Session, bearing_id: int):
+    return db.query(models.Bearing).filter(models.Bearing.id == bearing_id).first()
+
+
+def get_bearings(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Bearing).offset(skip).limit(limit).all()
+
+
+def create_bearings(db: Session, bearings: schemas.BearingsCreate):
+    db_bearings = models.Bearing(
+        title=bearings.title,
+        price=bearings.price,
+        description=bearings.description,
+    )
+    db.add(db_bearings)
+    db.commit()
+    db.refresh(db_bearings)
+    return db_bearings
+
+
+def delete_bearings(db: Session, bearings_id: int):
+    bearings = get_bearing(db, bearings_id)
+    if not bearings:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Bearings not found")
+    db.delete(bearings)
+    db.commit()
+    return bearings
+
+
+def edit_bearings(
+        db: Session, bearings_id: int, bearings: schemas.CompleteEdit
+) -> schemas.Bearings:
+    db_bearings = get_bearing(db, bearings_id)
+    if not db_bearings:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Bearings not found")
+    update_data = bearings.dict(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(db_bearings, key, value)
+
+    db.add(db_bearings)
+    db.commit()
+    db.refresh(db_bearings)
+    return db_bearings
