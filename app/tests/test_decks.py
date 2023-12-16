@@ -8,7 +8,6 @@ from app.db import crud
 def test_create_deck(test_app, monkeypatch):
     test_data = {
         "description": "test",
-        "title": "test",
         "id": 0,
         "price": 6000.0,
         "size": 8.25,
@@ -38,7 +37,6 @@ def test_create_deck_invalid_json(test_app):
 def test_read_deck(test_app, monkeypatch):
     test_data = {
         "description": "test",
-        "title": "test",
         "id": 0,
         "price": 6000.0,
         "size": 8.25,

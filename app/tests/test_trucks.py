@@ -8,7 +8,6 @@ from app.db import crud
 def test_create_trucks(test_app, monkeypatch):
     test_data = {
         "description": "test",
-        "title": "test",
         "id": 0,
         "price": 6000.0,
         "size": 5.5,
@@ -40,7 +39,6 @@ def test_create_trucks_invalid_json(test_app):
 def test_read_trucks(test_app, monkeypatch):
     test_data = {
         "description": "test",
-        "title": "test",
         "id": 0,
         "price": 6000.0,
         "size": 5.5,
